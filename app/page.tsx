@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { url } from 'inspector';
 
 export default function Page() {
     const [isVisible, setIsVisible] = useState(false);
@@ -19,6 +21,7 @@ export default function Page() {
             price: 100,
             rarity: 'epic',
             color: 'from-purple-500 to-blue-600',
+            url: 'enchanting-table',
         },
         {
             id: 2,
@@ -27,6 +30,7 @@ export default function Page() {
             price: 150,
             rarity: 'legendary',
             color: 'from-yellow-500 to-orange-600',
+            url: 'anvil',
         },
         {
             id: 3,
@@ -35,6 +39,7 @@ export default function Page() {
             price: 75,
             rarity: 'rare',
             color: 'from-green-500 to-emerald-600',
+            url: 'crafting-table',
         },
         {
             id: 4,
@@ -43,6 +48,7 @@ export default function Page() {
             price: 200,
             rarity: 'mythic',
             color: 'from-pink-500 to-purple-600',
+            url: 'brewing-stand',
         },
     ];
 
@@ -246,15 +252,14 @@ export default function Page() {
                                         data-oid="ivl69_f"
                                     >
                                         <span
-                                            className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                                                caseItem.rarity === 'legendary'
+                                            className={`px-3 py-1 rounded-full text-xs font-semibold ${caseItem.rarity === 'legendary'
                                                     ? 'bg-yellow-500/20 text-yellow-400'
                                                     : caseItem.rarity === 'epic'
-                                                      ? 'bg-purple-500/20 text-purple-400'
-                                                      : caseItem.rarity === 'rare'
-                                                        ? 'bg-blue-500/20 text-blue-400'
-                                                        : 'bg-pink-500/20 text-pink-400'
-                                            }`}
+                                                        ? 'bg-purple-500/20 text-purple-400'
+                                                        : caseItem.rarity === 'rare'
+                                                            ? 'bg-blue-500/20 text-blue-400'
+                                                            : 'bg-pink-500/20 text-pink-400'
+                                                }`}
                                             data-oid="wzv-yxt"
                                         >
                                             {caseItem.rarity}
@@ -267,12 +272,12 @@ export default function Page() {
                                         </span>
                                     </div>
 
-                                    <button
-                                        className="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-semibold transition-colors duration-300 border border-slate-600 hover:border-emerald-400"
-                                        data-oid="_y44rpk"
-                                    >
-                                        Открыть кейс
-                                    </button>
+                                    <Link href={`/case/${caseItem.url}`}>
+                                        <button className="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-semibold transition-colors duration-300 border border-slate-600 hover:border-emerald-400"
+                                            data-oid="_y44rpk">
+                                            Открыть кейс
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         ))}
@@ -285,10 +290,7 @@ export default function Page() {
                 <div className="max-w-7xl mx-auto" data-oid="ogzm.xa">
                     <div className="flex items-center justify-between mb-6" data-oid="p5wlxv5">
                         <h3 className="text-2xl font-bold" data-oid="zide:wo">
-                            <span
-                                className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"
-                                data-oid="9437-:."
-                            >
+                            <span className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent" data-oid="9437-:.">
                                 Последние выпадения
                             </span>
                         </h3>
@@ -334,13 +336,12 @@ export default function Page() {
                                             </div>
                                         </div>
                                         <div
-                                            className={`px-2 py-1 rounded text-xs font-semibold ${
-                                                drop.rarity === 'legendary'
+                                            className={`px-2 py-1 rounded text-xs font-semibold ${drop.rarity === 'legendary'
                                                     ? 'bg-yellow-500/20 text-yellow-400'
                                                     : drop.rarity === 'epic'
-                                                      ? 'bg-purple-500/20 text-purple-400'
-                                                      : 'bg-blue-500/20 text-blue-400'
-                                            }`}
+                                                        ? 'bg-purple-500/20 text-purple-400'
+                                                        : 'bg-blue-500/20 text-blue-400'
+                                                }`}
                                             data-oid="brua:pp"
                                         >
                                             {drop.item}

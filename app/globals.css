@@ -162,7 +162,7 @@
     }
 
     .card-case {
-        @apply relative bg-gradient-to-br p-1 rounded-2xl transition-all duration-500 hover:scale-105 cursor-pointer group;
+        @apply relative bg-gradient-to-br p-1 rounded-2xl transition-all duration-500 hover:scale-105 cursor-pointer;
     }
 
     .card-case-inner {
