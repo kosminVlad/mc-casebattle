@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Button } from '../../../components/ui/Button';
-import { CaseOpenModal } from '../../../components/ui/CaseOpenModal';
+import { CaseRollerModal } from '../../../components/ui/CaseRollerModal';
 import { DropTableModal } from '../../../components/ui/DropTableModal';
 import { caseService } from '../../../services/caseService';
 import { useCaseOpening, useUserStats } from '../../../hooks/useCases';
@@ -455,15 +455,14 @@ export default function CasePage() {
       </section>
 
       {/* ⭐ 5-6. Case Opening Modal */}
-      <CaseOpenModal
+      <CaseRollerModal
         isOpen={isModalOpen}
         caseName={caseItem.name}
         caseType={caseItem.type}
-        result={result}
-        isAnimating={isOpening}
+        dropTable={caseItem.dropTable}
         onClose={handleCloseModal}
-        onClaim={handleClaimItem}
-        onSell={handleSellItem}
+        onClaim={() => handleClaimItem()}
+        onSell={() => handleSellItem()}
       />
 
       {/* Drop Table Modal */}

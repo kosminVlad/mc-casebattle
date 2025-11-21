@@ -64,26 +64,46 @@ export function CaseOpenModal({
     const [animationPhase, setAnimationPhase] = useState<'opening' | 'revealing' | 'complete'>(
         'opening',
     );
+    const [rotation, setRotation] = useState(0);
 
     useEffect(() => {
         if (isAnimating && result) {
             setShowResult(false);
             setAnimationPhase('opening');
+            setRotation(0);
 
-            // ⭐ 5. Фаза 1: Анимация открытия кейса (1 секунда)
-            const openingTimer = setTimeout(() => {
-                setAnimationPhase('revealing');
-            }, 1000);
+            // ⭐ Фаза 1: Рулетка кручится (1.5 секунды)
+            const rotationDuration = 1500;
+            const startTime = Date.now();
+            
+            const rotationInterval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / rotationDuration, 1);
+                
+                // Ускорение → замедление (cubic-ease-out)
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                setRotation(easeOut * 8 * 360); // 8 полных оборотов
+                
+                if (progress >= 1) {
+                    clearInterval(rotationInterval);
+                }
+            }, 16);
 
-            // ⭐ 5. Фаза 2: Показ результата (0.5 секунды)
+            // ⭐ Фаза 2: Показываем результат
             const revealTimer = setTimeout(() => {
-                setShowResult(true);
-                setAnimationPhase('complete');
+                setAnimationPhase('revealing');
             }, 1500);
 
+            // ⭐ Фаза 3: Финальный показ (0.5 секунды)
+            const completeTimer = setTimeout(() => {
+                setShowResult(true);
+                setAnimationPhase('complete');
+            }, 2000);
+
             return () => {
-                clearTimeout(openingTimer);
+                clearInterval(rotationInterval);
                 clearTimeout(revealTimer);
+                clearTimeout(completeTimer);
             };
         }
     }, [isAnimating, result]);
@@ -122,54 +142,44 @@ export function CaseOpenModal({
                 )}
 
                 <div className="relative z-10">
-                    {/* ⭐ 5. Case Opening Animation */}
+                    {/* ⭐ Case Opening Animation with Roller */}
                     {isAnimating && (
                         <div className="text-center">
                             <h3 className="text-2xl font-bold text-mc-text-primary mb-8">
                                 Открываем {caseName}
                             </h3>
 
-                            {/* Animated Case */}
-                            <div className="relative h-48 mb-8 flex items-center justify-center">
-                                {animationPhase === 'opening' && (
-                                    <div
-                                        className={`w-32 h-32 bg-gradient-to-br ${config.gradient} rounded-xl animate-pulse ${config.glow} relative`}
-                                    >
-                                        <div className="absolute inset-0 bg-black/20 rounded-xl flex items-center justify-center">
-                                            <div className="text-6xl animate-bounce">{icon}</div>
-                                        </div>
+                            {/* Roller Container */}
+                            <div className="mb-8 relative h-32 bg-slate-800/50 rounded-lg border border-slate-700 overflow-hidden flex items-center justify-center">
+                                {/* Center Indicator */}
+                                <div className="absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2 w-1 bg-mc-accent-emerald/50 z-20"></div>
 
-                                        {/* ⭐ 5. Particle Effects */}
-                                        <div className="absolute inset-0">
-                                            <div className="absolute top-2 left-2 w-2 h-2 bg-mc-accent-emerald rounded-full animate-ping"></div>
-                                            <div className="absolute top-4 right-3 w-1 h-1 bg-mc-accent-purple rounded-full animate-pulse"></div>
-                                            <div className="absolute bottom-3 left-4 w-3 h-3 bg-mc-rarity-legendary rounded-full animate-bounce"></div>
-                                            <div
-                                                className="absolute bottom-2 right-2 w-2 h-2 bg-mc-accent-blue rounded-full animate-ping"
-                                                style={{ animationDelay: '0.5s' }}
-                                            ></div>
+                                {/* Items Roller */}
+                                <div
+                                    className="flex flex-col transition-transform"
+                                    style={{
+                                        transform: `rotateZ(${rotation}deg)`,
+                                        transitionDuration: animationPhase !== 'opening' ? '0.5s' : '0s',
+                                    }}
+                                >
+                                    <div className="flex-shrink-0 h-32 w-full flex items-center justify-center px-4">
+                                        <div className="text-center">
+                                            <div className="text-4xl mb-2">{icon}</div>
+                                            <div className="text-sm font-semibold text-mc-text-primary">{caseName}</div>
                                         </div>
                                     </div>
-                                )}
-
-                                {animationPhase === 'revealing' && (
-                                    <div className="animate-pulse">
-                                        <div className="text-4xl text-mc-accent-emerald font-bold">
-                                            ✨ Открываем... ✨
-                                        </div>
-                                    </div>
-                                )}
+                                </div>
                             </div>
 
                             {animationPhase === 'opening' && (
                                 <div className="text-mc-text-secondary animate-pulse">
-                                    Генерируем результат...
+                                    🎲 Кручу рулетку...
                                 </div>
                             )}
 
                             {animationPhase === 'revealing' && (
                                 <div className="text-mc-accent-emerald animate-pulse">
-                                    Показываем результат...
+                                    ✨ Показываю результат...
                                 </div>
                             )}
                         </div>
