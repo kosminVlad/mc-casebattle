@@ -86,28 +86,50 @@ export default function CasePage() {
     }
   }, [slug, router]);
 
-  // ⭐ 2-6. Обработчик открытия кейса
-  const handleCaseOpen = async () => {
+  const canAttemptOpen = () => {
     if (!isConnected) {
       alert('Сначала подключите Minecraft аккаунт!');
-      return;
+      return false;
     }
 
-    if (!caseItem) return;
+    if (!caseItem) return false;
 
     if (balance < caseItem.price) {
       alert('Недостаточно MC-Coins для открытия этого кейса!');
-      return;
+      return false;
     }
 
-    setIsModalOpen(true);
-    
+    return true;
+  };
+
+  const executeCaseOpen = async () => {
+    if (!caseItem) return false;
+
     const result = await openCase(userId, caseItem.id, balance, setBalance);
-    
+
     if (!result.success) {
       alert(result.error || 'Ошибка открытия кейса');
+      return false;
+    }
+
+    return true;
+  };
+
+  // ⭐ 2-6. Обработчик открытия кейса
+  const handleCaseOpen = async () => {
+    if (!canAttemptOpen()) return;
+
+    setIsModalOpen(true);
+
+    const success = await executeCaseOpen();
+    if (!success) {
       setIsModalOpen(false);
     }
+  };
+
+  const handleRollAgainRequest = async () => {
+    if (!canAttemptOpen()) return false;
+    return executeCaseOpen();
   };
 
   // ⭐ 6. Обработчики claim/sell
@@ -459,10 +481,15 @@ export default function CasePage() {
         isOpen={isModalOpen}
         caseName={caseItem.name}
         caseType={caseItem.type}
+        price={caseItem.price}
+        balance={balance}
         dropTable={caseItem.dropTable}
+        resultItem={result}
+        isResultPending={isOpening || !result}
         onClose={handleCloseModal}
         onClaim={() => handleClaimItem()}
         onSell={() => handleSellItem()}
+        onRollAgain={handleRollAgainRequest}
       />
 
       {/* Drop Table Modal */}

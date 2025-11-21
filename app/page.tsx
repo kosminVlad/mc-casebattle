@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { url } from 'inspector';
 
 export default function Page() {
     const [isVisible, setIsVisible] = useState(false);
@@ -56,30 +55,59 @@ export default function Page() {
         { player: 'Steve_2024', item: 'Diamond Sword', rarity: 'legendary' },
         { player: 'Alex_Pro', item: 'Enchanted Bow', rarity: 'epic' },
         { player: 'Creeper_King', item: 'Golden Apple', rarity: 'rare' },
+        { player: 'Steve_2024', item: 'Diamond Sword', rarity: 'legendary' },
+        { player: 'Alex_Pro', item: 'Enchanted Bow', rarity: 'epic' },
+        { player: 'Creeper_King', item: 'Golden Apple', rarity: 'rare' },
+        
+    ];
+
+    const ambientCubes = [
+        { top: '8%', left: '6%', size: 160, delay: '0s' },
+        { top: '65%', left: '12%', size: 120, delay: '0s' },
+        { top: '20%', left: '75%', size: 140, delay: '0s' },
+        { top: '70%', left: '75%', size: 110, delay: '0s' },
+    ];
+
+    const ambientClouds = [
+        { top: '32%', left: '35%', delay: '0s', width: 220 },
+        { top: '40%', left: '80%', delay: '0s', width: 180 },
+        { top: '68%', left: '50%', delay: '0s', width: 200 },
+        { top: '10%', left: '80%', delay: '0s', width: 220 },
     ];
 
     return (
-        <div
-            className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden"
-            data-oid="wpdsei1"
-        >
-            {/* Animated Background Particles */}
-            <div className="fixed inset-0 overflow-hidden pointer-events-none" data-oid="pmlc_bw">
-                <div
-                    className="absolute top-1/4 left-1/4 w-2 h-2 bg-emerald-400 rounded-full animate-pulse opacity-60"
-                    data-oid="sfi7d24"
-                ></div>
-                <div
-                    className="absolute top-3/4 right-1/3 w-1 h-1 bg-purple-400 rounded-full animate-ping opacity-40"
-                    data-oid="k4rjiqd"
-                ></div>
-                <div
-                    className="absolute bottom-1/4 left-1/2 w-3 h-3 bg-yellow-400 rounded-full animate-bounce opacity-30"
-                    data-oid="he9ughv"
-                ></div>
+        <div className="relative min-h-screen text-white overflow-hidden">
+            <div className="mc-grid"></div>
+            <div className="mc-ambient-layer">
+                {ambientCubes.map((cube, index) => (
+                    <span
+                        key={`cube-${index}`}
+                        className="mc-ambient-cube"
+                        style={{
+                            top: cube.top,
+                            left: cube.left,
+                            width: cube.size,
+                            height: cube.size,
+                            animationDelay: cube.delay,
+                        }}
+                    />
+                ))}
+                {ambientClouds.map((cloud, index) => (
+                    <span
+                        key={`cloud-${index}`}
+                        className="mc-ambient-cloud"
+                        style={{
+                            top: cloud.top,
+                            left: cloud.left,
+                            width: cloud.width,
+                            animationDelay: cloud.delay,
+                        }}
+                    />
+                ))}
             </div>
 
-            {/* Header */}
+            <div className="relative z-10">
+                {/* Header */}
             <header
                 className="relative z-10 px-6 py-4 border-b border-slate-700/50 backdrop-blur-sm"
                 data-oid="eqe0083"
@@ -98,10 +126,7 @@ export default function Page() {
                     </div>
 
                     <div className="flex items-center space-x-6" data-oid="eci_zfe">
-                        <div
-                            className="flex items-center space-x-2 bg-slate-800/50 px-4 py-2 rounded-full border border-slate-600"
-                            data-oid="v22_o87"
-                        >
+                        <div className="flex items-center space-x-2 bg-slate-800/50 px-4 py-2 rounded-full border border-slate-600">
                             <div
                                 className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"
                                 data-oid="u:.tfht"
@@ -109,8 +134,8 @@ export default function Page() {
                             <span className="text-emerald-400 font-semibold" data-oid="5hp5sle">
                                 {balance.toLocaleString()}
                             </span>
-                            <span className="text-slate-400 text-sm" data-oid="e9wzf0k">
-                                MC-Coins
+                            <span className="text-slate-400 text-sm">
+                                эмеральдов
                             </span>
                         </div>
 
@@ -131,9 +156,8 @@ export default function Page() {
                             <button
                                 onClick={() => setIsConnected(true)}
                                 className="px-6 py-2 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full font-semibold hover:from-emerald-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105"
-                                data-oid="ajcb_xj"
                             >
-                                Подключить Minecraft
+                                Привязать ник
                             </button>
                         )}
                     </div>
@@ -144,44 +168,35 @@ export default function Page() {
             <section className="relative px-6 py-16" data-oid="r-v0vas">
                 <div className="max-w-7xl mx-auto text-center" data-oid="tshi9.0">
                     <h1
-                        className={`text-6xl md:text-8xl font-bold mb-6 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                        data-oid="5oyh3yx"
+                        className={`text-6xl md:text-7xl font-bold mb-6 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                     >
-                        <span
-                            className="bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 bg-clip-text text-transparent"
-                            data-oid="3b5vbv."
-                        >
-                            Открой
+                        <span className="bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+                            Зажги маяк
                         </span>
-                        <br data-oid="j.nherz" />
-                        <span className="text-white" data-oid="e9xcfp6">
-                            свой кейс
-                        </span>
+                        <br />
+                        и забери свой лут
                     </h1>
 
                     <p
                         className={`text-xl text-slate-300 max-w-2xl mx-auto mb-12 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                        data-oid="re...35"
                     >
-                        Получай уникальные предметы Minecraft, открывая кейсы в стиле игровых
-                        объектов. Все выигрыши автоматически доставляются в твой инвентарь!
+                        Открывай порталы в любимые предметы Minecraft, заряжай маяк эмеральдами и
+                        пополняй инвентарь легендарными находками. Всё, что выпадет, мгновенно
+                        отправится в твою игру.
                     </p>
 
                     <div
                         className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                        data-oid="42u2z9:"
                     >
                         <button
                             className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full text-lg font-semibold hover:from-emerald-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-emerald-500/25"
-                            data-oid="gkfbey7"
                         >
-                            Открыть первый кейс
+                            Забрать стартовый сундук
                         </button>
                         <button
                             className="px-8 py-4 border-2 border-slate-600 rounded-full text-lg font-semibold hover:border-emerald-400 hover:text-emerald-400 transition-all duration-300"
-                            data-oid="-ipg6v1"
                         >
-                            Как это работает
+                            Что это такое?
                         </button>
                     </div>
                 </div>
@@ -190,12 +205,9 @@ export default function Page() {
             {/* Cases Grid */}
             <section className="px-6 py-16" data-oid="5rhc9q_">
                 <div className="max-w-7xl mx-auto" data-oid="mptho8t">
-                    <h2 className="text-4xl font-bold text-center mb-12" data-oid="-t9u-yd">
-                        <span
-                            className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"
-                            data-oid="4-d4ja7"
-                        >
-                            Выбери свой кейс
+                    <h2 className="text-4xl font-bold text-center mb-12">
+                        <span className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent">
+                            Выбери артефакт
                         </span>
                     </h2>
 
@@ -264,18 +276,14 @@ export default function Page() {
                                         >
                                             {caseItem.rarity}
                                         </span>
-                                        <span
-                                            className="text-emerald-400 font-bold"
-                                            data-oid="i1w9b.4"
-                                        >
-                                            {caseItem.price} MC
+                                        <span className="text-emerald-400 font-bold">
+                                            {caseItem.price} эмеральдов
                                         </span>
                                     </div>
 
                                     <Link href={`/case/${caseItem.url}`}>
-                                        <button className="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-semibold transition-colors duration-300 border border-slate-600 hover:border-emerald-400"
-                                            data-oid="_y44rpk">
-                                            Открыть кейс
+                                        <button className="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-semibold transition-colors duration-300 border border-slate-600 hover:border-emerald-400">
+                                            Активировать портал
                                         </button>
                                     </Link>
                                 </div>
@@ -291,7 +299,7 @@ export default function Page() {
                     <div className="flex items-center justify-between mb-6" data-oid="p5wlxv5">
                         <h3 className="text-2xl font-bold" data-oid="zide:wo">
                             <span className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent" data-oid="9437-:.">
-                                Последние выпадения
+                                Хроника выпадений
                             </span>
                         </h3>
                         <div
@@ -308,47 +316,35 @@ export default function Page() {
                         </div>
                     </div>
 
-                    <div className="overflow-hidden" data-oid="06isv9o">
-                        <div className="flex space-x-6 animate-scroll" data-oid="gaa7k4n">
-                            {recentDrops.concat(recentDrops).map((drop, index) => (
-                                <div
-                                    key={index}
-                                    className="flex-shrink-0 bg-slate-800/50 rounded-lg p-4 border border-slate-700"
-                                    data-oid="ks-ifp."
-                                >
-                                    <div className="flex items-center space-x-3" data-oid="lo.7351">
-                                        <div
-                                            className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-blue-500 rounded"
-                                            data-oid="mk7ilb4"
-                                        ></div>
-                                        <div data-oid="2_wflle">
-                                            <div
-                                                className="text-sm font-semibold"
-                                                data-oid=".usot7z"
-                                            >
-                                                {drop.player}
+                    <div className="overflow-hidden">
+                        <div className="mc-marquee-track gap-6">
+                            {[...Array(2)].map((_, loopIndex) =>
+                                recentDrops.map((drop, index) => (
+                                    <div
+                                        key={`${loopIndex}-${index}`}
+                                        className="flex-shrink-0 min-w-[240px] bg-slate-800/50 rounded-lg p-4 border border-slate-700"
+                                    >
+                                        <div className="flex items-center space-x-3">
+                                            <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-blue-500 rounded"></div>
+                                            <div>
+                                                <div className="text-sm font-semibold">{drop.player}</div>
+                                                <div className="text-xs text-slate-400">получил</div>
                                             </div>
                                             <div
-                                                className="text-xs text-slate-400"
-                                                data-oid="vrou0wh"
-                                            >
-                                                получил
-                                            </div>
-                                        </div>
-                                        <div
-                                            className={`px-2 py-1 rounded text-xs font-semibold ${drop.rarity === 'legendary'
-                                                    ? 'bg-yellow-500/20 text-yellow-400'
-                                                    : drop.rarity === 'epic'
+                                                className={`px-2 py-1 rounded text-xs font-semibold ${
+                                                    drop.rarity === 'legendary'
+                                                        ? 'bg-yellow-500/20 text-yellow-400'
+                                                        : drop.rarity === 'epic'
                                                         ? 'bg-purple-500/20 text-purple-400'
                                                         : 'bg-blue-500/20 text-blue-400'
                                                 }`}
-                                            data-oid="brua:pp"
-                                        >
-                                            {drop.item}
+                                            >
+                                                {drop.item}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                )),
+                            )}
                         </div>
                     </div>
                 </div>
@@ -472,24 +468,12 @@ export default function Page() {
                         className="border-t border-slate-700/50 mt-8 pt-8 text-center text-slate-400 text-sm"
                         data-oid="smxmloa"
                     >
-                        © 2024 MC-Case Battle. Все права защищены.
+                        © 2025 MC-Case Battle. Все права защищены.
                     </div>
                 </div>
             </footer>
 
-            <style jsx data-oid="s:ub6fn">{`
-                @keyframes scroll {
-                    0% {
-                        transform: translateX(0);
-                    }
-                    100% {
-                        transform: translateX(-50%);
-                    }
-                }
-                .animate-scroll {
-                    animation: scroll 20s linear infinite;
-                }
-            `}</style>
+            </div>
         </div>
     );
 }
