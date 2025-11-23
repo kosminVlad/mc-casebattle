@@ -9,6 +9,7 @@ import { caseService } from '../../../services/caseService';
 import { useCaseOpening, useUserStats } from '../../../hooks/useCases';
 import { CaseItem } from '../../../types/case';
 import { getCaseIdFromSlug, getCaseSlug } from '../../../utils/caseUtils';
+import { Header } from '../../../components/ui/Header';
 
 const rarityConfig = {
   common: {
@@ -179,63 +180,12 @@ export default function CasePage() {
   return (
     <div className="min-h-screen bg-gradient-main text-mc-text-primary">
       {/* Header */}
-      <header className="relative z-10 px-6 py-6 glass-effect border-b border-white/10">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo & Back */}
-          <div className="flex items-center space-x-6">
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={() => router.push('/')}
-              className="flex items-center space-x-2"
-            >
-              <span>←</span>
-              <span>Назад</span>
-            </Button>
-            <div className="text-2xl font-bold text-gradient-emerald">
-              MC-CASE BATTLE
-            </div>
-          </div>
-
-          {/* User Section */}
-          <div className="flex items-center space-x-6">
-            {/* Balance */}
-            <div className="glass-effect px-6 py-3 rounded-full border border-mc-accent-emerald/30">
-              <div className="flex items-center space-x-3">
-                <div className="w-3 h-3 bg-mc-accent-emerald rounded-full animate-pulse"></div>
-                <span className="text-mc-accent-emerald font-bold text-lg">
-                  {balance.toLocaleString()}
-                </span>
-                <span className="text-mc-text-secondary text-sm font-medium">
-                  MC-Coins
-                </span>
-              </div>
-            </div>
-
-            {/* Auth Section */}
-            {isConnected ? (
-              <div className="glass-effect px-4 py-3 rounded-full border border-mc-accent-emerald/30">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-mc-accent-emerald to-mc-accent-blue rounded-lg flex items-center justify-center font-bold">
-                    S
-                  </div>
-                  <span className="text-mc-accent-emerald font-semibold">
-                    Steve_2024
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <Button 
-                variant="primary" 
-                size="md"
-                onClick={() => setIsConnected(true)}
-              >
-                Подключить Minecraft
-              </Button>
-            )}
-          </div>
-        </div>
-      </header>
+                              <Header
+                    balance={balance}
+                    username="Steve_2024"
+                    isConnected={isConnected}
+                    onConnect={() => setIsConnected(true)}
+                />
 
       {/* ⭐ 1. Case Hero Section */}
       <section className="relative px-6 py-20">
