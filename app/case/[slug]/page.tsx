@@ -50,7 +50,7 @@ export default function CasePage() {
   const params = useParams();
   const router = useRouter();
   const slug = params.slug as string;
-  
+
   const [caseItem, setCaseItem] = useState<CaseItem | null>(null);
   const [balance, setBalance] = useState(1250);
   const [isConnected, setIsConnected] = useState(false);
@@ -177,277 +177,329 @@ export default function CasePage() {
   const legendaryCount = caseItem.dropTable.filter(item => ['legendary', 'mythic'].includes(item.rarity)).length;
   const epicCount = caseItem.dropTable.filter(item => item.rarity === 'epic').length;
 
+  const recentDrops = [
+    { player: 'Steve_2024', item: 'Diamond Sword', rarity: 'legendary' },
+    { player: 'Alex_Pro', item: 'Enchanted Bow', rarity: 'epic' },
+    { player: 'Creeper_King', item: 'Golden Apple', rarity: 'rare' },
+  ];
+
+  const ambientCubes = [
+    { top: '8%', left: '76%', size: 160, delay: '0s' },
+    { top: '65%', left: '52%', size: 120, delay: '4s' },
+    { top: '20%', left: '5%', size: 140, delay: '8s' },
+    { top: '70%', left: '25%', size: 110, delay: '12s' },
+  ];
+
+  const ambientClouds = [
+    { top: '12%', left: '35%', delay: '2s', width: 220 },
+    { top: '40%', left: '80%', delay: '6s', width: 180 },
+    { top: '68%', left: '50%', delay: '10s', width: 200 },
+  ];
+
+    
+
   return (
-    <div className="min-h-screen bg-gradient-main text-mc-text-primary">
-      {/* Header */}
-                              <Header
-                    balance={balance}
-                    username="Steve_2024"
-                    isConnected={isConnected}
-                    onConnect={() => setIsConnected(true)}
-                />
+    <div className="relative min-h-screen text-white overflow-hidden">
+      <div className="mc-grid"></div>
+      <div className="mc-ambient-layer">
+        {ambientCubes.map((cube, index) => (
+          <span
+            key={`cube-${index}`}
+            className="mc-ambient-cube"
+            style={{
+              top: cube.top,
+              left: cube.left,
+              width: cube.size,
+              height: cube.size,
+              animationDelay: cube.delay,
+            }}
+          />
+        ))}
+        {ambientClouds.map((cloud, index) => (
+          <span
+            key={`cloud-${index}`}
+            className="mc-ambient-cloud"
+            style={{
+              top: cloud.top,
+              left: cloud.left,
+              width: cloud.width,
+              animationDelay: cloud.delay,
+            }}
+          />
+        ))}
+      </div>
 
-      {/* ⭐ 1. Case Hero Section */}
-      <section className="relative px-6 py-20">
-        <div className="max-w-4xl mx-auto">
-          <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            
-            {/* Case Visual */}
-            <div className="relative">
-              <div className={`relative h-80 flex items-center justify-center bg-gradient-to-br ${config.gradient} rounded-2xl ${config.glow} p-8`}>
-                <div className="relative">
-                  <div className={`w-48 h-48 bg-gradient-to-br ${config.gradient} rounded-xl transform hover:rotate-12 transition-transform duration-500 shadow-card animate-float`}>
-                    <div className="w-full h-full bg-black/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                      <div className="text-8xl animate-pulse-slow">
-                        {icon}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Glow Effect */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${config.gradient} opacity-30 blur-2xl -z-10`}></div>
-                </div>
-              </div>
-            </div>
+      <div className="min-h-screen text-mc-text-primary">
+        {/* Header */}
+        <Header
+          balance={balance}
+          username="Steve_2024"
+          isConnected={isConnected}
+          onConnect={() => setIsConnected(true)}
+        />
 
-            {/* ⭐ 1. Case Info */}
-            <div className="space-y-6">
-              <div>
-                <div className={`inline-block px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide border ${config.badge} mb-4`}>
-                  {caseItem.rarity}
-                </div>
-                <h1 className="text-5xl font-bold text-mc-text-primary mb-4">
-                  {caseItem.name}
-                </h1>
-                <p className="text-xl text-mc-text-secondary leading-relaxed">
-                  {caseItem.description}
-                </p>
-              </div>
+        {/* ⭐ 1. Case Hero Section */}
+        <section className="relative px-6 py-20">
+          <div className="max-w-4xl mx-auto">
+            <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
 
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-4">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-mc-accent-emerald">
-                    {caseItem.price}
-                  </div>
-                  <div className="text-sm text-mc-text-secondary">
-                    MC-Coins
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-mc-rarity-legendary">
-                    {legendaryCount}
-                  </div>
-                  <div className="text-sm text-mc-text-secondary">
-                    Редких
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-mc-rarity-epic">
-                    {epicCount}
-                  </div>
-                  <div className="text-sm text-mc-text-secondary">
-                    Эпиков
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="space-y-4">
-                <Button 
-                  variant="primary" 
-                  size="lg" 
-                  className="w-full shadow-glow-emerald"
-                  onClick={handleCaseOpen}
-                  disabled={!isConnected || balance < caseItem.price}
-                >
-                  {!isConnected ? 'Подключите Minecraft' : 
-                   balance < caseItem.price ? 'Недостаточно MC-Coins' :
-                   `Открыть за ${caseItem.price} MC-Coins`}
-                </Button>
-                
-                <Button 
-                  variant="secondary" 
-                  size="md" 
-                  className="w-full"
-                  onClick={() => setShowDropTable(true)}
-                >
-                  Посмотреть содержимое
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ⭐ 8. User Stats Section */}
-      <section className="px-6 py-12 border-t border-white/10">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-8">
-            <span className="text-gradient-emerald">
-              Ваша статистика
-            </span>
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="glass-effect rounded-lg p-6 text-center border border-white/10">
-              <div className="text-3xl font-bold text-mc-accent-emerald mb-2">
-                {userStats.totalOpened}
-              </div>
-              <div className="text-mc-text-secondary">
-                Кейсов открыто
-              </div>
-            </div>
-            
-            <div className="glass-effect rounded-lg p-6 text-center border border-white/10">
-              <div className="text-3xl font-bold text-mc-rarity-legendary mb-2">
-                {Math.max(0, 10 - userStats.guaranteedProgress)}
-              </div>
-              <div className="text-mc-text-secondary">
-                До гарантированного Rare
-              </div>
-              {userStats.guaranteedProgress > 0 && (
-                <div className="mt-2 bg-mc-bg-secondary rounded-full h-2">
-                  <div 
-                    className="bg-gradient-to-r from-mc-accent-emerald to-mc-accent-blue h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${(userStats.guaranteedProgress / 10) * 100}%` }}
-                  ></div>
-                </div>
-              )}
-            </div>
-            
-            <div className="glass-effect rounded-lg p-6 text-center border border-white/10">
-              <div className="text-3xl font-bold text-mc-rarity-mythic mb-2">
-                {userStats.legendaryCount + userStats.mythicCount}
-              </div>
-              <div className="text-mc-text-secondary">
-                Легендарных предметов
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ⭐ 1. Drop Table Section */}
-      <section className="px-6 py-16 border-t border-white/10">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            <span className="text-gradient-emerald">
-              Возможные награды
-            </span>
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {caseItem.dropTable
-              .sort((a, b) => b.probability - a.probability)
-              .map((item) => {
-                const itemConfig = rarityConfig[item.rarity];
-                return (
-                  <div
-                    key={item.id}
-                    className={`glass-effect rounded-lg p-6 border border-white/10 hover:border-mc-accent-emerald/30 transition-all duration-300 bg-gradient-to-br ${itemConfig.gradient} bg-opacity-10`}
-                  >
-                    <div className="text-center mb-4">
-                      <div className="text-4xl mb-2">
-                        {item.icon || '📦'}
-                      </div>
-                      <h3 className="font-bold text-mc-text-primary mb-1">
-                        {item.name}
-                      </h3>
-                      <p className="text-sm text-mc-text-secondary">
-                        {item.description}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border ${itemConfig.badge}`}>
-                        {item.rarity}
-                      </div>
-                      <div className="text-right">
-                        <div className="text-lg font-bold text-mc-text-primary">
-                          {item.probability}%
-                        </div>
-                        <div className="text-xs text-mc-text-secondary">
-                          {item.sellPrice} MC продажа
+              {/* Case Visual */}
+              <div className="relative">
+                <div className={`relative h-80 flex items-center justify-center bg-gradient-to-br ${config.gradient} rounded-2xl ${config.glow} p-8`}>
+                  <div className="relative">
+                    <div className={`w-48 h-48 bg-gradient-to-br ${config.gradient} rounded-xl transform hover:rotate-12 transition-transform duration-500 shadow-card animate-float`}>
+                      <div className="w-full h-full bg-black/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                        <div className="text-8xl animate-pulse-slow">
+                          {icon}
                         </div>
                       </div>
                     </div>
+
+                    {/* Glow Effect */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${config.gradient} opacity-30 blur-2xl -z-10`}></div>
                   </div>
-                );
-              })}
-          </div>
-        </div>
-      </section>
+                </div>
+              </div>
 
-      {/* Related Cases */}
-      <section className="px-6 py-16 border-t border-white/10">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            <span className="text-gradient-emerald">
-              Другие кейсы
-            </span>
-          </h2>
+              {/* ⭐ 1. Case Info */}
+              <div className="space-y-6">
+                <div>
+                  <div className={`inline-block px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide border ${config.badge} mb-4`}>
+                    {caseItem.rarity}
+                  </div>
+                  <h1 className="text-5xl font-bold text-mc-text-primary mb-4">
+                    {caseItem.name}
+                  </h1>
+                  <p className="text-xl text-mc-text-secondary leading-relaxed">
+                    {caseItem.description}
+                  </p>
+                </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {caseService.getActiveCases()
-              .filter(c => c.id !== caseItem.id)
-              .slice(0, 3)
-              .map((relatedCase) => {
-                const relatedConfig = rarityConfig[relatedCase.rarity];
-                const relatedIcon = typeIcons[relatedCase.type as keyof typeof typeIcons] || '📦';
-                const relatedSlug = getCaseSlug(relatedCase.id);
-                
-                return (
-                  <div
-                    key={relatedCase.id}
-                    className={`glass-effect rounded-lg p-6 border border-white/10 hover:border-mc-accent-emerald/30 transition-all duration-300 cursor-pointer bg-gradient-to-br ${relatedConfig.gradient} bg-opacity-10`}
-                    onClick={() => router.push(`/case/${relatedSlug}`)}
+                {/* Stats */}
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-mc-accent-emerald">
+                      {caseItem.price}
+                    </div>
+                    <div className="text-sm text-mc-text-secondary">
+                      MC-Coins
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-mc-rarity-legendary">
+                      {legendaryCount}
+                    </div>
+                    <div className="text-sm text-mc-text-secondary">
+                      Редких
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-mc-rarity-epic">
+                      {epicCount}
+                    </div>
+                    <div className="text-sm text-mc-text-secondary">
+                      Эпиков
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="space-y-4">
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    className="w-full shadow-glow-emerald"
+                    onClick={handleCaseOpen}
+                    disabled={!isConnected || balance < caseItem.price}
                   >
-                    <div className="text-center">
-                      <div className="text-3xl mb-3">
-                        {relatedIcon}
+                    {!isConnected ? 'Подключите Minecraft' :
+                      balance < caseItem.price ? 'Недостаточно MC-Coins' :
+                        `Открыть за ${caseItem.price} MC-Coins`}
+                  </Button>
+
+                  <Button
+                    variant="secondary"
+                    size="md"
+                    className="w-full"
+                    onClick={() => setShowDropTable(true)}
+                  >
+                    Посмотреть содержимое
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ⭐ 8. User Stats Section */}
+        <section className="px-6 py-12 border-t border-white/10">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-center mb-8">
+              <span className="text-gradient-emerald">
+                Ваша статистика
+              </span>
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="glass-effect rounded-lg p-6 text-center border border-white/10">
+                <div className="text-3xl font-bold text-mc-accent-emerald mb-2">
+                  {userStats.totalOpened}
+                </div>
+                <div className="text-mc-text-secondary">
+                  Кейсов открыто
+                </div>
+              </div>
+
+              <div className="glass-effect rounded-lg p-6 text-center border border-white/10">
+                <div className="text-3xl font-bold text-mc-rarity-legendary mb-2">
+                  {Math.max(0, 10 - userStats.guaranteedProgress)}
+                </div>
+                <div className="text-mc-text-secondary">
+                  До гарантированного Rare
+                </div>
+                {userStats.guaranteedProgress > 0 && (
+                  <div className="mt-2 bg-mc-bg-secondary rounded-full h-2">
+                    <div
+                      className="bg-gradient-to-r from-mc-accent-emerald to-mc-accent-blue h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${(userStats.guaranteedProgress / 10) * 100}%` }}
+                    ></div>
+                  </div>
+                )}
+              </div>
+
+              <div className="glass-effect rounded-lg p-6 text-center border border-white/10">
+                <div className="text-3xl font-bold text-mc-rarity-mythic mb-2">
+                  {userStats.legendaryCount + userStats.mythicCount}
+                </div>
+                <div className="text-mc-text-secondary">
+                  Легендарных предметов
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ⭐ 1. Drop Table Section */}
+        <section className="px-6 py-16 border-t border-white/10">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-12">
+              <span className="text-gradient-emerald">
+                Возможные награды
+              </span>
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {caseItem.dropTable
+                .sort((a, b) => b.probability - a.probability)
+                .map((item) => {
+                  const itemConfig = rarityConfig[item.rarity];
+                  return (
+                    <div
+                      key={item.id}
+                      className={`glass-effect rounded-lg p-6 border border-white/10 hover:border-mc-accent-emerald/30 transition-all duration-300 bg-gradient-to-br ${itemConfig.gradient} bg-opacity-10`}
+                    >
+                      <div className="text-center mb-4">
+                        <div className="text-4xl mb-2">
+                          {item.icon || '📦'}
+                        </div>
+                        <h3 className="font-bold text-mc-text-primary mb-1">
+                          {item.name}
+                        </h3>
+                        <p className="text-sm text-mc-text-secondary">
+                          {item.description}
+                        </p>
                       </div>
-                      <h3 className="font-bold text-mc-text-primary mb-2">
-                        {relatedCase.name}
-                      </h3>
+
                       <div className="flex items-center justify-between">
-                        <div className={`px-2 py-1 rounded text-xs font-bold ${relatedConfig.badge}`}>
-                          {relatedCase.rarity}
+                        <div className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border ${itemConfig.badge}`}>
+                          {item.rarity}
                         </div>
-                        <div className="text-mc-accent-emerald font-bold">
-                          {relatedCase.price} MC
+                        <div className="text-right">
+                          <div className="text-lg font-bold text-mc-text-primary">
+                            {item.probability}%
+                          </div>
+                          <div className="text-xs text-mc-text-secondary">
+                            {item.sellPrice} MC продажа
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ⭐ 5-6. Case Opening Modal */}
-      <CaseRollerModal
-        isOpen={isModalOpen}
-        caseName={caseItem.name}
-        caseType={caseItem.type}
-        price={caseItem.price}
-        balance={balance}
-        dropTable={caseItem.dropTable}
-        resultItem={result}
-        isResultPending={isOpening || !result}
-        onClose={handleCloseModal}
-        onClaim={() => handleClaimItem()}
-        onSell={() => handleSellItem()}
-        onRollAgain={handleRollAgainRequest}
-      />
+        {/* Related Cases */}
+        <section className="px-6 py-16 border-t border-white/10">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-12">
+              <span className="text-gradient-emerald">
+                Другие кейсы
+              </span>
+            </h2>
 
-      {/* Drop Table Modal */}
-      <DropTableModal
-        isOpen={showDropTable}
-        caseItem={caseItem}
-        onClose={() => setShowDropTable(false)}
-      />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {caseService.getActiveCases()
+                .filter(c => c.id !== caseItem.id)
+                .slice(0, 3)
+                .map((relatedCase) => {
+                  const relatedConfig = rarityConfig[relatedCase.rarity];
+                  const relatedIcon = typeIcons[relatedCase.type as keyof typeof typeIcons] || '📦';
+                  const relatedSlug = getCaseSlug(relatedCase.id);
+
+                  return (
+                    <div
+                      key={relatedCase.id}
+                      className={`glass-effect rounded-lg p-6 border border-white/10 hover:border-mc-accent-emerald/30 transition-all duration-300 cursor-pointer bg-gradient-to-br ${relatedConfig.gradient} bg-opacity-10`}
+                      onClick={() => router.push(`/case/${relatedSlug}`)}
+                    >
+                      <div className="text-center">
+                        <div className="text-3xl mb-3">
+                          {relatedIcon}
+                        </div>
+                        <h3 className="font-bold text-mc-text-primary mb-2">
+                          {relatedCase.name}
+                        </h3>
+                        <div className="flex items-center justify-between">
+                          <div className={`px-2 py-1 rounded text-xs font-bold ${relatedConfig.badge}`}>
+                            {relatedCase.rarity}
+                          </div>
+                          <div className="text-mc-accent-emerald font-bold">
+                            {relatedCase.price} MC
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        </section>
+
+        {/* ⭐ 5-6. Case Opening Modal */}
+        <CaseRollerModal
+          isOpen={isModalOpen}
+          caseName={caseItem.name}
+          caseType={caseItem.type}
+          price={caseItem.price}
+          balance={balance}
+          dropTable={caseItem.dropTable}
+          resultItem={result}
+          isResultPending={isOpening || !result}
+          onClose={handleCloseModal}
+          onClaim={() => handleClaimItem()}
+          onSell={() => handleSellItem()}
+          onRollAgain={handleRollAgainRequest}
+        />
+
+        {/* Drop Table Modal */}
+        <DropTableModal
+          isOpen={showDropTable}
+          caseItem={caseItem}
+          onClose={() => setShowDropTable(false)}
+        />
+      </div>
     </div>
   );
 }

@@ -28,10 +28,9 @@ export default function Page() {
             id: 2,
             name: 'Наковальня',
             type: 'anvil',
-            price: 150,
-            rarity: 'legendary',
+            rarity: 'upgrade',
             color: 'from-yellow-500 to-orange-600',
-            url: 'anvil',
+            url: '/upgrade',
         },
         {
             id: 3,
@@ -225,11 +224,11 @@ export default function Page() {
                                                 {caseItem.rarity}
                                             </span>
                                             <span className="text-emerald-400 font-bold">
-                                                {caseItem.price} эмеральдов
+
                                             </span>
                                         </div>
 
-                                        <Link href={`/case/${caseItem.url}`}>
+                                        <Link href={caseItem.url.startsWith('/') ? caseItem.url : `/case/${caseItem.url}`}>
                                             <button className="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-semibold transition-colors duration-300 border border-slate-600 hover:border-emerald-400">
                                                 Активировать портал
                                             </button>
