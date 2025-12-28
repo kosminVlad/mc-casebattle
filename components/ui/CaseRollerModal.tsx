@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { DropTableItem } from '../../types/case';
 import { Button } from './Button';

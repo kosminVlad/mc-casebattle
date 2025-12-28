@@ -1,4 +1,3 @@
-'use client';
 
 import { CaseItem } from '../../types/case';
 import { Button } from './Button';

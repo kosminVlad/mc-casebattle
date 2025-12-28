@@ -1,7 +1,5 @@
-'use client';
-
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import { User, Package, LogOut } from 'lucide-react';
 
 interface UserMenuProps {
@@ -9,10 +7,10 @@ interface UserMenuProps {
 }
 
 export function UserMenu({ onMenuItemClick }: UserMenuProps) {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const handleNavigate = (path: string) => {
-    router.push(path);
+    navigate(path);
     onMenuItemClick();
   };
 

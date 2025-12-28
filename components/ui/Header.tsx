@@ -1,7 +1,5 @@
-'use client';
-
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { UserMenu } from './UserMenu';
 
@@ -19,7 +17,7 @@ export function Header({
   onConnect,
 }: HeaderProps) {
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const router = useRouter();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -27,7 +25,7 @@ export function Header({
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <button
-            onClick={() => router.push('/')}
+            onClick={() => navigate('/')}
             className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
           >
             MC-CASE BATTLE

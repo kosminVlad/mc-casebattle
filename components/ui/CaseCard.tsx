@@ -1,7 +1,5 @@
-'use client';
-
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import { Button } from './Button';
 import { DropTableModal } from './DropTableModal';
 import { CaseItem } from '../../types/case';
@@ -59,7 +57,7 @@ export function CaseCard({
     onViewDetails,
 }: CaseCardProps) {
     const [showDropTable, setShowDropTable] = useState(false);
-    const router = useRouter();
+    const navigate = useNavigate();
     const config = rarityConfig[rarity];
     const icon = typeIcons[type as keyof typeof typeIcons] || '📦';
 
@@ -73,7 +71,7 @@ export function CaseCard({
             onViewDetails(id);
         } else {
             const url = getCaseUrl(id);
-            router.push(url);
+            navigate(url);
         }
     };
 

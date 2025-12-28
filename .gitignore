@@ -13,8 +13,13 @@
 /.next/
 /out/
 
+# Vite
+/dist
+/.vite
+
 # production
 /build
+/dist
 
 # misc
 .DS_Store
